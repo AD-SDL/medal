@@ -1,0 +1,15 @@
+FROM python:3.11
+
+RUN mkdir /wei
+
+# Clone wei files
+RUN git clone https://github.com/AD-SDL/wei.git /wei
+
+
+# Install dependencies
+RUN python -m pip install --upgrade pip
+RUN pip install -r /wei/requirements/requirements.txt
+RUN pip install -r /wei/requirements/dev.txt
+
+# Install wei
+RUN pip install -e /wei
