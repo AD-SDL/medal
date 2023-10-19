@@ -1,56 +1,56 @@
 version: "3.0"
 services:
-  starting_example_server:
+  example_server:
     image: wei
-    container_name: starting_example_server
+    container_name: example_server
     build:
       context: .
       dockerfile: ./docker/Dockerfile-wei
+    volumes:
+      - ./work:/example/work
     ports:
       - 8000:8000
-    command: python -m wei.server --workcell /wei/tests/test_workcell.yaml --redis_host starting_example_redis
+    command: python -m wei.server --workcell /example/work/example_workcell.yaml --redis_host example_redis
     depends_on:
-      - starting_example_redis
-  starting_example_scheduler:
+      - example_redis
+
+  example_scheduler:
     image: wei
-    container_name: starting_example_scheduler
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile-wei
-    command: python -m wei.scheduler --workcell /wei/tests/test_workcell.yaml --redis_host starting_example_redis --server starting_example_server
+    container_name: example_scheduler
+    volumes:
+      - ./work:/example/work
+    command: python -m wei.scheduler --workcell /example/work/example_workcell.yaml --redis_host example_redis --server example_server
     depends_on:
-      - starting_example_redis
-      - starting_example_sleeper
-      - starting_example_webcam
-  starting_example_redis:
+      - example_redis
+      - example_sleeper
+      - example_webcam
+
+  example_redis:
     image: redis
-    container_name: starting_example_redis
+    container_name: example_redis
     ports:
       - 6379:6379
     volumes:
       - ~/.wei/redis_data:/data
     command: redis-server --save 60 1 --loglevel warning
-  starting_example_sleeper:
+
+  example_sleeper:
     image: wei
-    container_name: starting_example_sleeper
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile-wei
+    container_name: example_sleeper
     command: python /wei/examples/example_clients/sleep_rest_node.py
     ports:
       - 2000:2000
-  starting_example_webcam:
+
+  example_webcam:
     image: wei
-    container_name: starting_example_webcam
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile-wei
+    container_name: example_webcam
     ports:
       - 2001:2001
     command: python /wei/examples/example_clients/webcam_rest_node.py
-  starting_example_jupyter:
-    image: starting_example_jupyter
-    container_name: starting_example_jupyter
+
+  example_jupyter:
+    image: example_jupyter
+    container_name: example_jupyter
     user: root
     working_dir: "/home/jovyan"
     build:
