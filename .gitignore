@@ -280,3 +280,8 @@ logs/
 
 # ignore redis dump file
 *.rdb
+
+.jupyter/
+.local/
+.ipython/
+.npm/

@@ -1,0 +1,10 @@
+###########
+# Modules #
+###########
+services:
+  sleeper:
+    image: ghcr.io/ad-sdl/sleep_module
+    container_name: sleeper
+    command: python -m sleep_rest_node --port 2000
+    ports:
+      - 2000:2000

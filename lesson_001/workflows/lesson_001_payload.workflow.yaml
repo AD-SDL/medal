@@ -1,0 +1,16 @@
+name: Lesson001_Workflow
+metadata:
+  author: Ryan D. Lewis
+  info: Simple starter workflow for learning WEI
+  version: 1.0
+
+modules:
+  - sleeper
+
+flowdef:
+  - name: Sleep workcell for payload.t seconds
+    module: sleeper
+    action: sleep
+    args:
+      t: payload.t
+    comment: Sleep for payload.t seconds, then take a picture

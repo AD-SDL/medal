@@ -1,0 +1,26 @@
+#####################
+# WEI Core Services #
+#####################
+services:
+  wei_server:
+    image: ghcr.io/ad-sdl/wei:v0.5.6
+    container_name: wei_server
+    ports:
+      - 8000:8000
+    volumes:
+      - ../workcells:/workcells
+    command: python3 -m wei.server --workcell /workcells/lesson_001.workcell.yaml
+  wei_engine:
+    image: ghcr.io/ad-sdl/wei:v0.5.6
+    container_name: wei_engine
+    volumes:
+      - ../workcells:/workcells
+    command: python3 -m wei.engine --workcell /workcells/lesson_001.workcell.yaml
+    environment:
+      - PYTHONUNBUFFERED=1 # Fix weird bug with empty logging
+  wei_redis:
+    image: redis
+    container_name: wei_redis
+    ports:
+      - 6379:6379
+    command: redis-server --save 60 1 --loglevel warning

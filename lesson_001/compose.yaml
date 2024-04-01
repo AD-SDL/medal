@@ -1,0 +1,15 @@
+include:
+  - ./docker/wei.compose.yaml
+  - ./docker/modules.compose.yaml
+
+services:
+  medal_jupyter:
+    image: quay.io/jupyter/minimal-notebook
+    container_name: medal_jupyter
+    ports:
+      - 8888:8888
+    volumes:
+      - ./:/home/jovyan
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+      JUPYTER_TOKEN: "medal"
